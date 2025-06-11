@@ -38,5 +38,5 @@ https://anotherexample.com | anotheruser | anotherpass
 
 ## Лицензия
 
-Этот проект распространяется под лицензией MIT. Подробности смотрите в файле `LICENSE`.
+Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [`LICENSE`](https://github.com/disconnect-dev/Zen-stealer/blob/main/LICENSE).
 
